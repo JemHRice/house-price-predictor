@@ -4,7 +4,7 @@ An interactive machine learning application that predicts house prices based on 
 
 ## Demo
 
-**[🚀 Live App on Streamlit Cloud](https://jemrice-house-price-predictor-app.streamlit.app)**
+**[🚀 Live App on Streamlit Cloud](https://house-price-predictor-7ge62jlm4m3awhc4py5cz8.streamlit.app/)**
 
 Try it now! Adjust the sliders to get instant price predictions.
 
