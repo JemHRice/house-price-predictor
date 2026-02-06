@@ -8,6 +8,10 @@ An interactive machine learning application that predicts house prices based on 
 
 Try it now! Adjust the sliders to get instant price predictions.
 
+### Dashboard Screenshot
+
+![House Price Predictor Dashboard](images/dashboard.png)
+
 ## Overview
 
 This project demonstrates a complete ML workflow:
