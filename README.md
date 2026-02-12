@@ -310,25 +310,6 @@ matplotlib>=3.8
 seaborn>=0.13
 ```
 
-## 🎯 Usage Examples
-
-### Example 1: Vaucluse Waterfront
-- Suburb: Vaucluse
-- 5 bed, 3 bath, 2 parking
-- 400 sqm property
-- **Prediction**: $4.2M ± $0.36M
-
-### Example 2: Parramatta Family Home
-- Suburb: Parramatta
-- 3 bed, 2 bath, 2 parking
-- 180 sqm property
-- **Prediction**: $1.1M ± $0.09M
-
-### Example 3: Inner West Investment
-- Suburb: Newtown
-- 2 bed, 1 bath, 0 parking
-- 120 sqm unit
-- **Prediction**: $820k ± $71k
 
 ## 🤝 Contributing
 
@@ -340,9 +321,9 @@ MIT License - Open source for educational purposes
 
 ## ✍️ Author
 
-John Moen
+Jem Herbert-Rice
 - GitHub: [@jemhr](https://github.com/jemhr)
-- Email: john.moen@example.com
+- Email: jemhrice536@gmail.com
 
 ---
 
