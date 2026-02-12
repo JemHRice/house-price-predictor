@@ -3,6 +3,13 @@
 **Production-ready ML model for Sydney property price prediction: 95.27% accuracy (±$146k error)**
 
 Predict Sydney property values instantly with this XGBoost model trained on 10,373 real transactions. Achieve ±8.7% average error through suburb clustering, feature engineering, and price normalization.
+
+## 🚀 Try It Live
+
+**[👉 Open the Live App on Streamlit Cloud](https://house-price-predictor-7ge62jlm4m3awhc4py5cz8.streamlit.app/)**
+
+Get instant price predictions for any Sydney property. No setup required—click the link above!
+
 ## 📈 Accuracy Metrics
 
 | Metric | Score | Interpretation |
