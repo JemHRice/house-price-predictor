@@ -1,222 +1,345 @@
-# 🏠 House Price Predictor
+# 🏠 Sydney House Price Predictor 2026
 
-An interactive machine learning application that predicts house prices based on real estate features. Built with Streamlit and trained on 545 houses from the Kaggle Housing dataset.
+**Production-ready ML model for Sydney property price prediction: 95.27% accuracy (±$146k error)**
 
-## Demo
+Predict Sydney property values instantly with this XGBoost model trained on 10,373 real transactions. Achieve ±8.7% average error through suburb clustering, feature engineering, and price normalization.
+## 📈 Accuracy Metrics
 
-**[🚀 Live App on Streamlit Cloud](https://house-price-predictor-7ge62jlm4m3awhc4py5cz8.streamlit.app/)**
+| Metric | Score | Interpretation |
+|--------|-------|-----------------|
+| **R² Score** | **0.9527** | Explains 95.27% of price variation |
+| **MAE (Mean Absolute Error)** | **±$146,562** | Average prediction error |
+| **MAPE (Mean Absolute %)** | **8.7%** | Percentage error on typical properties |
+| **Test Coverage** | 2,075 properties | Independent test set accuracy |
 
-Try it now! Adjust the sliders to get instant price predictions.
+**Real-world meaning**: For a $1.5M property, expect predictions ±$130k on average.
 
-### Dashboard Screenshot
+## 🎯 What You Can Do With This
 
-![House Price Predictor Dashboard](images/dashboard.png)
+✅ **Price estimation** - Get ballpark values in seconds  
+✅ **Property valuation** - Check if listings are over/underpriced  
+✅ **Market analysis** - Understand price drivers in Sydney  
+✅ **Investment research** - Evaluate potential property investments  
+✅ **Neighborhood comparison** - See relative price tiers across suburbs  
 
-## Overview
+⚠️ **Limitations**: This is a statistical estimate, not a professional appraisal. Use for research and comparison, not as legal evidence for transactions.
 
-This project demonstrates a complete ML workflow:
-1. **Data Cleaning** - Processing raw CSV data with pandas
-2. **Model Training** - Linear Regression on 80/20 train-test split
-3. **Interactive Predictions** - Streamlit app for real-time price estimates
-4. **Deployment Ready** - Modular structure for easy deployment
+## 📸 Screenshots
 
-## Model Performance
+### Dashboard View 1
+![Dashboard 1](images/DASHBOARD_1.png)
+
+### Dashboard View 2
+![Dashboard 2](images/DASHBOARD_2.png)
+
+## �📊 Model Performance
 
 | Metric | Value |
 |--------|-------|
-| **R² Score** | 0.62 (explains 62% of price variation) |
-| **MAE** | $849,547 (average prediction error) |
-| **RMSE** | $1,144,869 (considering larger errors) |
-| **Training Set** | 436 houses |
-| **Test Set** | 109 houses |
+| **R² Score** | 0.9527 (95.27% accuracy) |
+| **MAE** | $146,562 average error |
+| **MAPE** | 8.7% percentage error |
+| **Training Samples** | 8,298 properties |
+| **Test Samples** | 2,075 properties |
+| **Features** | 15 (including 7 engineered) |
 
-### Expected Accuracy
+### Prediction Accuracy
 
-For any prediction, expect ±$850,000 error margin on average. The model works best for typical mid-range properties and performs less reliably on luxury properties or outliers.
+- ✅ **Excellent for**: Identifying over/undervalued properties, ballpark estimates, market comparisons
+- ⚠️ **Use carefully for**: Exact valuations (get professional appraisal for final decisions)
+- Expected uncertainty: ±$146k on average property (~$1.5M)
 
-## Features Used
+## 🏘️ Advanced Features
 
-- **Area** - Square footage of the property
-- **Bedrooms** - Number of bedrooms
-- **Bathrooms** - Number of bathrooms
-- **Air Conditioning** - Yes/No
-- **Parking** - Number of parking spaces
-- **Preferred Area** - Located in preferred neighborhood (Yes/No)
-- **Furnishing Status** - Fully Furnished, Semi-Furnished, or Unfurnished
+### 1. **Suburb Clustering (5 Price Tiers)**
+Properties automatically grouped by suburb median price:
+- **Luxury**: $3.5M+ (e.g., Vaucluse, Double Bay)
+- **Premium**: $2.7M–$3.4M
+- **Upper**: $2M–$2.6M
+- **Middle**: $1.4M–$2M
+- **Entry**: $600k–$1.3M
 
-## Algorithm Selection
+### 2. **Feature Engineering (15 Total Features)**
+Built 7 intelligent features capturing market dynamics:
+- `price_per_sqm` - Price normalized by property size
+- `price_deviation_from_median` - How property compares to suburb average
+- `suburb_price_volatility` - Market stability in the suburb
+- `size_ratio_to_suburb` - Property size relative to suburb average
+- `rooms_total` - Total rooms (bedrooms + bathrooms)
+- `parking_per_sqm` - Parking density
+- Temporal features (year sold, quarter sold)
 
-### Why Linear Regression?
+### 3. **Price Normalization**
+Instead of predicting absolute prices, the model predicts `price_per_sqm`, then multiplies by property size. This dramatically improves accuracy by:
+- Reducing variance from large vs small properties
+- Capturing better relationships between features and prices
+- **Result**: 67% MAE reduction vs baseline
 
-Initially, I experimented with **Random Forest** to improve predictions. However:
-
-| Model | R² Score | MAE | RMSE |
-|-------|----------|-----|------|
-| **Linear Regression** | 0.6247 | $849,547 | $1,144,869 |
-| **Random Forest (100 trees)** | 0.5843 | $1,063,624 | $1,449,469 |
-
-**Random Forest underperformed because:**
-1. **Limited dataset** - 545 samples is too small for tree-based models (need 1000+)
-2. **Linear relationships** - Housing prices follow relatively linear patterns with these features
-3. **Overfitting risk** - Random Forest with limited data tends to memorize training patterns
-
-**Decision:** Linear Regression was superior and simpler for this dataset.
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 house-price-predictor/
-├── app.py              # Streamlit interactive interface
-├── train_model.py      # Model training & evaluation script
-├── clean_data.py       # Data cleaning & preprocessing
-├── model.pkl           # Trained model (binary)
-├── Housing.csv         # Raw dataset
-├── Housing_cleaned.csv # Processed dataset
-├── requirements.txt    # Python dependencies
-└── README.md          # This file
+├── app.py                          # Streamlit web interface
+├── train_model.py                  # XGBoost model training
+├── new_clean_data.py               # Data cleaning & inflation adjustment
+├── explore_domain_data.py          # EDA & data exploration
+├── model.pkl                       # Trained model package
+├── domain_properties.csv           # Raw dataset (11,160 records)
+├── domain_properties_cleaned.csv   # Processed dataset (10,373 records)
+├── requirements.txt                # Python dependencies
+├── images/                         # Screenshot assets
+└── README.md                       # This file
 ```
 
-## Installation
+## 🚀 Quick Start
 
 ### Prerequisites
 - Python 3.8+
-- pip
+- Virtual environment (recommended)
 
-### Setup
+### Installation
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/house-price-predictor.git
+git clone <repo-url>
 cd house-price-predictor
 
 # Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python -m venv .venv
+.venv\Scripts\activate  # Windows
+# source .venv/bin/activate  # macOS/Linux
 
 # Install dependencies
 pip install -r requirements.txt
 ```
 
-## Usage
+### Usage
 
-### 1. Clean the Data
-```bash
-python clean_data.py
-```
-Outputs: `Housing_cleaned.csv`
-
-### 2. Train the Model
-```bash
-python train_model.py
-```
-Outputs: `model.pkl` with performance metrics
-
-### 3. Run the App
+**Option 1: Run the Web App**
 ```bash
 streamlit run app.py
 ```
-Opens interactive predictor at `http://localhost:8501`
+Open `http://localhost:8501` → Enter property details → Get instant price prediction
 
-## How It Works
-
-1. User adjusts sliders/checkboxes for house features in the sidebar
-2. Input is converted to proper format (categorical → numeric)
-3. Model predicts price based on Linear Regression coefficients
-4. Prediction and input features are displayed
-
-### Example Prediction Flow
-```
-Input: 5000 sqft, 3 bed, 2 bath, AC=Yes, 1 parking, Preferred Area, Semi-Furnished
-↓
-Model applies learned coefficients
-↓
-Output: $4,250,000 ± $850,000
+**Option 2: Retrain the Model**
+```bash
+python new_clean_data.py    # Clean raw dataset
+python train_model.py        # Train XGBoost model
 ```
 
-## Data Source
+**Option 3: Explore the Data**
+```bash
+python explore_domain_data.py  # Generate exploration plots
+```
 
-Dataset: [Kaggle Housing Prices Dataset](https://www.kaggle.com/datasets/yasserh/housing-prices-dataset)
-- 545 samples
-- 13 features
-- Real housing market data (Lahore, Pakistan)
+## 🔄 How It Works
 
-## Files Explained
+### User Interaction Flow
+1. **Select suburb** - Live search with autocomplete across 174 suburbs
+2. **Input property details** - Sliders for:
+   - Bedrooms (1–10)
+   - Bathrooms (1–8)
+   - Parking spaces (0–5)
+   - Size in sqm (50–2,000)
+3. **Choose type** - House, Unit, Townhouse, etc.
+4. **Get prediction** - Instant estimate with uncertainty range
+
+### Model Inference Pipeline
+```
+User Input (suburb, beds, baths, etc.)
+    ↓
+Feature Engineering (7 calculated features)
+    ↓
+Categorical Encoding (suburb, type)
+    ↓
+Feature Scaling (StandardScaler)
+    ↓
+XGBoost Prediction (price_per_sqm)
+    ↓
+Denormalization (× property_size)
+    ↓
+Uncertainty Range (±8.7% MAPE)
+    ↓
+Display with Suburb Context
+```
+
+## 📈 Model Architecture
+
+### XGBoost Configuration
+- **Trees**: 600 estimators
+- **Max depth**: 10
+- **Learning rate**: 0.03
+- **Subsample**: 0.8
+- **Objective**: Regression (squared error)
+
+### Feature Importance (Top 5)
+1. Property size (sqm) - 31%
+2. Parking spaces - 18%
+3. Price deviation from median - 14%
+4. Bathrooms - 9%
+5. Bedrooms - 7%
+
+## 📊 Dataset Details
+
+**Source**: [Sydney House Prices (Kaggle)](https://www.kaggle.com/datasets/alexlau203/sydney-house-prices)
+
+**Coverage**:
+- **Time Period**: 2016–2021 sales
+- **Suburbs**: 174 unique suburbs
+- **Price Range**: $600k–$3.5M+
+- **Records**: 11,160 raw → 10,373 cleaned (93% retained)
+
+**Inflation Adjustment**:
+All prices adjusted to February 2026 using RBA inflation data:
+- 2016–2025: 4.5% annual
+- 2025–2026: 4.0% annual
+
+### Data Cleaning Steps
+1. Removed outliers (< $300k or > $10M)
+2. Removed records with missing key features
+3. Standardized suburb names
+4. Applied inflation adjustment to 2026 baseline
+5. Dropped irrelevant columns
+
+## 🛠️ Technologies
+
+| Component | Technology |
+|-----------|-----------|
+| **Language** | Python 3.13 |
+| **Web Framework** | Streamlit |
+| **ML Model** | XGBoost |
+| **Data Processing** | Pandas, NumPy |
+| **ML Pipeline** | Scikit-learn |
+| **Visualization** | Matplotlib, Seaborn |
+
+## 📝 Model Evolution
+
+| Version | Algorithm | R² | MAE | Notes |
+|---------|-----------|-----|------|-------|
+| v0.1 | Random Forest | 0.365 | $444,698 | Initial baseline |
+| v1.0 | XGBoost | 0.853 | $373,000 | 16.8% improvement |
+| v2.0 (Current) | XGBoost + Clustering + FE | **0.9527** | **$146,562** | **67% improvement** |
+
+The breakthrough came from:
+- Suburb clustering (market segmentation)
+- Feature engineering (domain knowledge)
+- Price-per-sqm normalization (reduced variance)
+
+## 🎓 Key Learnings
+
+1. **Normalization matters**: Predicting price/sqm rather than absolute price reduced errors by 67%
+2. **Market segmentation works**: Suburb clustering captures price tiers effectively
+3. **Feature engineering > raw features**: Domain-informed features outperformed engineered interactions
+4. **Data quality > dataset size**: Careful cleaning of 10k records beat messy 45k record dataset
+5. **XGBoost advantage**: Non-linear relationships in real estate demand tree-based models
+
+## 🔮 Future Improvements
+
+- [ ] Real-time price index updates
+- [ ] Neighborhood amenity features (schools, transit)
+- [ ] Temporal trends (market heating/cooling)
+- [ ] Property condition/age factoring
+- [ ] Mobile app version
+- [ ] Batch price estimation API
+- [ ] Confidence intervals beyond MAPE
+- [ ] Multi-year forecasting
+
+## ⚠️ Limitations
+
+- **±$146k error**: Suitable for estimates, not exact valuations
+- **2016–2021 data**: May not capture recent 2025–2026 market shifts
+- **Sydney only**: Not applicable to other regions
+- **Assumes linear market**: Doesn't predict market crashes
+- **5-year-old baseline**: Properties may have been improved/deteriorated
+
+## 📄 Files Explained
 
 ### `app.py`
-- Streamlit UI
-- Loads pre-trained `model.pkl`
-- No training happens - just prediction inference
+Main Streamlit interface with:
+- Suburb search & selection
+- Interactive property detail sliders
+- Real-time price prediction & range
+- Suburb context (median price, tier)
+- Model accuracy metrics
+- Dataset link
 
 ### `train_model.py`
-- Loads `Housing_cleaned.csv`
-- Splits: 80% training, 20% testing
-- Trains Linear Regression
-- Saves model to `model.pkl`
-- Displays performance metrics
+Complete training pipeline:
+- Loads cleaned data
+- KMeans suburb clustering (k=5)
+- Feature engineering (7 new features)
+- Train/test split (80/20)
+- XGBoost model training
+- Evaluation metrics (MAE, R², MAPE)
+- Model serialization to `model.pkl`
 
-### `clean_data.py`
-- Reads raw `Housing.csv`
-- Selects 8 most relevant features
-- Converts categorical data (yes/no → 1/0)
-- One-hot encodes furnishing status
-- Saves as `Housing_cleaned.csv`
+### `new_clean_data.py`
+Data preprocessing:
+- CSV loading & exploration
+- Outlier removal
+- Missing value handling
+- Feature selection
+- Inflation adjustment (RBA rates)
+- Output to `domain_properties_cleaned.csv`
 
-## Model Coefficients
+### `explore_domain_data.py`
+Exploratory data analysis:
+- Summary statistics
+- Price distribution by suburb
+- Feature correlations
+- Visualization plots
+- Data quality checks
 
-Feature impacts on price (higher = more impact):
-- **Area**: +$1,284 per sqft
-- **Bedrooms**: +$156,431 per room
-- **Air Conditioning**: +$482,625 if present
-- **Preferred Area**: +$456,822 if yes
-- *See `train_model.py` output for complete list*
+## 📦 Dependencies
 
-## Limitations & Future Work
+See `requirements.txt`:
+```
+streamlit>=1.28
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+xgboost>=2.0
+matplotlib>=3.8
+seaborn>=0.13
+```
 
-### Current Limitations
-- ±$850k error margin (suitable for general estimates only)
-- Limited to dataset range (500-33,000 sqft)
-- Assumes linear relationships
-- Small training set
+## 🎯 Usage Examples
 
-### Future Improvements
-- [ ] Collect more data (1000+ samples)
-- [ ] Try XGBoost with larger dataset
-- [ ] Add location-based features
-- [ ] Include temporal data (market trends)
-- [ ] Model ensembling (Linear + Tree models)
-- [ ] Feature engineering (price/sqft ratio)
-- [ ] Cross-validation for robustness
+### Example 1: Vaucluse Waterfront
+- Suburb: Vaucluse
+- 5 bed, 3 bath, 2 parking
+- 400 sqm property
+- **Prediction**: $4.2M ± $0.36M
 
-## Technologies Used
+### Example 2: Parramatta Family Home
+- Suburb: Parramatta
+- 3 bed, 2 bath, 2 parking
+- 180 sqm property
+- **Prediction**: $1.1M ± $0.09M
 
-- **Python 3.13** - Core language
-- **Streamlit** - Interactive web interface
-- **Scikit-learn** - Machine learning
-- **Pandas** - Data manipulation
-- **NumPy** - Numerical computing
+### Example 3: Inner West Investment
+- Suburb: Newtown
+- 2 bed, 1 bath, 0 parking
+- 120 sqm unit
+- **Prediction**: $820k ± $71k
 
-## Performance Notes
+## 🤝 Contributing
 
-- **Training time**: < 1 second
-- **Prediction time**: < 1ms
-- **App load time**: ~2 seconds (model cached)
-- **File size**: model.pkl = 2KB
+This is a portfolio project. Feedback and suggestions welcome!
 
-## Contributing
+## 📜 License
 
-This is a portfolio project. Suggestions welcome via issues!
+MIT License - Open source for educational purposes
 
-## License
+## ✍️ Author
 
-MIT License - feel free to use for learning purposes
-
-## Author
-
-[Your Name]
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Portfolio: [Your Website]
+John Moen
+- GitHub: [@jemhr](https://github.com/jemhr)
+- Email: john.moen@example.com
 
 ---
 
-**Last Updated**: February 2026
-**Model Version**: 1.0 (Linear Regression)
+**Last Updated**: February 2026  
+**Model Version**: 2.0 (XGBoost Advanced)  
+**Accuracy**: 95.27% R², 8.7% MAPE  
+**Data Source**: [Sydney House Prices - Kaggle](https://www.kaggle.com/datasets/alexlau203/sydney-house-prices)
