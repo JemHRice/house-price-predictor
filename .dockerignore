@@ -1,0 +1,19 @@
+.git
+.gitignore
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.ipynb
+
+# Training and raw data are not required for production inference image.
+train_model.py
+new_clean_data.py
+explore_domain_data.py
+domain_properties.csv
+
+# Docs and assets not needed at runtime.
+README.md
+images

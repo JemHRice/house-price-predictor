@@ -87,6 +87,8 @@ Instead of predicting absolute prices, the model predicts `price_per_sqm`, then 
 ```
 house-price-predictor/
 ├── app.py                          # Streamlit web interface
+├── Dockerfile                      # Inference-only container image
+├── .dockerignore                   # Build context exclusions
 ├── train_model.py                  # XGBoost model training
 ├── new_clean_data.py               # Data cleaning & inflation adjustment
 ├── explore_domain_data.py          # EDA & data exploration
@@ -127,6 +129,21 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 Open `http://localhost:8501` → Enter property details → Get instant price prediction
+
+**Option 1b: Run with Docker (Inference-Only Production Image)**
+```bash
+# Build image
+docker build -t sydney-house-price-predictor .
+
+# Run container
+docker run --rm -p 8501:8501 sydney-house-price-predictor
+```
+Open `http://localhost:8501`
+
+Production Docker scope:
+- Includes only inference runtime (`app.py`, `model.pkl`, `domain_properties_cleaned.csv`)
+- Excludes retraining workflows and raw dataset processing
+- Uses the pre-trained model artifact already in the repository
 
 **Option 2: Retrain the Model**
 ```bash
